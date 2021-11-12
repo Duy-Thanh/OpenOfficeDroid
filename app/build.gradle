@@ -1,0 +1,83 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdk 30
+    ndkVersion "23.0.7599858"
+
+    defaultConfig {
+        applicationId "com.cyberdaystudio.office.OpenOfficeDroid"
+        minSdk 21
+        targetSdk 30
+        versionCode 1
+        versionName "1.0"
+
+        vectorDrawables.useSupportLibrary true
+
+        externalNativeBuild.cmake.targets "odr-core"
+        externalNativeBuild.cmake.arguments "-DANDROID_STL=c++_shared"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    flavorDimensions "default"
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            ndk.debugSymbolLevel = "full"
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            ndk.debugSymbolLevel = "full"
+        }
+    }
+
+    android.bundle.language.enableSplit true
+
+    lintOptions.abortOnError false
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    externalNativeBuild {
+        cmake {
+            version "3.18.1"
+            path file('../CMakeLists.txt')
+        }
+    }
+}
+
+dependencies {
+
+    // Implementation all dependencies
+    implementation 'androidx.core:core:1.5.0'
+    implementation 'androidx.webkit:webkit:1.4.0'
+
+    implementation 'com.github.AppIntro:AppIntro:5.1.0'
+
+    implementation('com.nononsenseapps:filepicker:4.2.1', {
+        exclude group: 'com.android.support'
+    })
+
+    implementation 'com.viliussutkus89:pdf2htmlex-android:0.18.12'
+    implementation 'com.viliussutkus89:wvware-android:1.2.4'
+    implementation 'com.github.huzongyao:AndroidMagic:v1.1.2'
+
+    // ================================================================
+
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}
